@@ -1,13 +1,16 @@
 const express = require("express");
+const mongoose = require("mongoose");
+const keys = require("./config/keys");
+require("./models/User");
+require("./services/passport");
+
+mongoose.connect(keys.mongoURI);
+
 const app = express();
 
-app.get("/", (req, res) => {
-  res.send({ hi: "there" });
-});
+//this is the function that we created from hte other file
+//and then it calls express in order for that function to run
+require("./routes/authRoutes")(app);
 
-//dynamically figures out what port we need to listen to
-// looks at underlying enviroment and then look at the port they want us to use is what the code below is doing
-//if there is an enviroment variable then assign it or by default use 5000
 const PORT = process.env.PORT || 5000;
 app.listen(PORT);
-// http://localhost:5000/
